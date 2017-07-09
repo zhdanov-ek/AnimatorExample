@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -20,6 +21,7 @@ public class ExpandingPanel extends RelativeLayout {
     private static final String TAG = "EXPAND";
     private RelativeLayout rlPanel;
     private ImageView ivArrow;
+    private Button btnAction;
     private Drawable arrowLeft;
     private Drawable arrowRight;
     private boolean isPanelExpanded = true;
@@ -56,9 +58,18 @@ public class ExpandingPanel extends RelativeLayout {
         LayoutParams lpPanel = new LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        lpPanel.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+        lpPanel.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
         rlPanel.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_panel));
         addView(rlPanel, lpPanel);
+
+        final Button btnAction = new Button(context);
+        this.btnAction = btnAction;
+        btnAction.setText("Show");
+        LayoutParams lpButton = new LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        lpButton.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+        rlPanel.addView(btnAction, lpButton);
 
 
         // create arrow
@@ -89,6 +100,9 @@ public class ExpandingPanel extends RelativeLayout {
                     public void onAnimationUpdate(ValueAnimator animation) {
                         ViewGroup.LayoutParams params =  rlPanel.getLayoutParams();
                         params.width = (Integer) widthAnimator.getAnimatedValue();
+                        if (params.width  < (btnAction.getWidth() + 50)){
+                            btnAction.setVisibility(GONE);
+                        }
                         rlPanel.setLayoutParams(params);
                     }
                 });
@@ -111,6 +125,9 @@ public class ExpandingPanel extends RelativeLayout {
                     public void onAnimationUpdate(ValueAnimator animation) {
                         ViewGroup.LayoutParams params =  rlPanel.getLayoutParams();
                         params.width = (Integer) widthAnimator.getAnimatedValue();
+                        if (params.width > btnAction.getWidth() + 50){
+                            btnAction.setVisibility(VISIBLE);
+                        }
                         rlPanel.setLayoutParams(params);
                     }
                 });
