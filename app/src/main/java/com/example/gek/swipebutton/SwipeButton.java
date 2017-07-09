@@ -37,19 +37,16 @@ public class SwipeButton extends RelativeLayout {
 
     public SwipeButton(Context context) {
         super(context);
-
         init(context, null, -1, -1);
     }
 
     public SwipeButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-
         init(context, attrs, -1, -1);
     }
 
     public SwipeButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
         init(context, attrs, defStyleAttr, -1);
     }
 
